@@ -44,7 +44,7 @@ docker compose up --build
 ```
 
 ## API Endpoints
-Use Swagger: The swagger endpoint is available at http://localhost:8080/swagger/index.html. You can test and execute the post and get request in the UI.
+Use Swagger: The swagger endpoint is available at http://localhost:8080/swagger/index.html. You can test and execute the post and get request in the above UI.
 
 ## Running Tests
 To run the tests, you can use following command:
