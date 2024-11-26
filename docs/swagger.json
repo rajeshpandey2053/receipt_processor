@@ -1,0 +1,140 @@
+{
+    "swagger": "2.0",
+    "info": {
+        "description": "This is an api developed for Fetch Rewards receipt processor challenge.",
+        "title": "Receipt Processor API",
+        "contact": {},
+        "version": "1.0"
+    },
+    "host": "localhost:8080",
+    "basePath": "/",
+    "paths": {
+        "/receipts/process": {
+            "post": {
+                "description": "Process the receipt and return the ID",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "receipts"
+                ],
+                "summary": "Process a receipt",
+                "parameters": [
+                    {
+                        "description": "Receipt",
+                        "name": "receipt",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/models.Receipt"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/models.ProcessReceiptResponse"
+                        }
+                    },
+                    "400": {
+                        "description": "The receipt is invalid",
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                }
+            }
+        },
+        "/receipts/{id}/points": {
+            "get": {
+                "description": "Get the points associated with a specific receipt ID",
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "receipts"
+                ],
+                "summary": "Get points by receipt ID",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "Receipt ID",
+                        "name": "id",
+                        "in": "path",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/models.GetPointsResult"
+                        }
+                    },
+                    "404": {
+                        "description": "Receipt not found",
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                }
+            }
+        }
+    },
+    "definitions": {
+        "models.GetPointsByIdResponse": {
+            "type": "object",
+            "properties": {
+                "points": {
+                    "type": "integer"
+                }
+            }
+        },
+        "models.Item": {
+            "type": "object",
+            "properties": {
+                "price": {
+                    "type": "string"
+                },
+                "shortDescription": {
+                    "type": "string"
+                }
+            }
+        },
+        "models.ProcessReceiptResponse": {
+            "type": "object",
+            "properties": {
+                "id": {
+                    "type": "string"
+                }
+            }
+        },
+        "models.Receipt": {
+            "type": "object",
+            "properties": {
+                "items": {
+                    "type": "array",
+                    "items": {
+                        "$ref": "#/definitions/models.Item"
+                    }
+                },
+                "purchaseDate": {
+                    "type": "string"
+                },
+                "purchaseTime": {
+                    "type": "string"
+                },
+                "retailer": {
+                    "type": "string"
+                },
+                "total": {
+                    "type": "string"
+                }
+            }
+        }
+    }
+}

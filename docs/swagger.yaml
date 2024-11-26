@@ -1,0 +1,91 @@
+basePath: /
+definitions:
+  models.GetPointsResult:
+    properties:
+      points:
+        type: integer
+    type: object
+  models.Item:
+    properties:
+      price:
+        type: string
+      shortDescription:
+        type: string
+    type: object
+  models.ProcessReceiptResult:
+    properties:
+      id:
+        type: string
+    type: object
+  models.Receipt:
+    properties:
+      items:
+        items:
+          $ref: '#/definitions/models.Item'
+        type: array
+      purchaseDate:
+        type: string
+      purchaseTime:
+        type: string
+      retailer:
+        type: string
+      total:
+        type: string
+    type: object
+host: localhost:8080
+info:
+  contact: {}
+  description: This is an api developed for Fetch Rewards receipt processor challenge.
+  title: Receipt Processor API
+  version: "1.0"
+paths:
+  /receipts/{id}/points:
+    get:
+      description: Get the points associated with a specific receipt ID
+      parameters:
+      - description: Receipt ID
+        in: path
+        name: id
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/models.GetPointsResult'
+        "404":
+          description: Receipt not found
+          schema:
+            type: string
+      summary: Get points by receipt ID
+      tags:
+      - receipts
+  /receipts/process:
+    post:
+      consumes:
+      - application/json
+      description: Process the receipt and return the ID
+      parameters:
+      - description: Receipt
+        in: body
+        name: receipt
+        required: true
+        schema:
+          $ref: '#/definitions/models.Receipt'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/models.ProcessReceiptResponse'
+        "400":
+          description: The receipt is invalid
+          schema:
+            type: string
+      summary: Process a receipt
+      tags:
+      - receipts
+swagger: "2.0"
